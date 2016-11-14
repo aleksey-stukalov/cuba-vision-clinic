@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.cubavisionclinic.web.invoices.InvoicesBrowse"
+        focusComponent="invoicesesTable"
+        lookupComponent="invoicesesTable"
+        messagesPack="com.company.cubavisionclinic.web.invoices">
+    <dsContext>
+        <datasource id="invoicesDs"
+                    class="com.company.cubavisionclinic.entity.Invoices"
+                    view="invoices-edit-view">
+            <collectionDatasource id="detailsDs"
+                                  property="details"/>
+        </datasource>
+        <collectionDatasource id="invoicesesDs"
+                              class="com.company.cubavisionclinic.entity.Invoices"
+                              view="invoices-browser-view">
+            <query>
+                <![CDATA[select e from cubavisionclinic$Invoices e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <actions>
+        <action id="save"
+                caption="mainMsg://actions.Ok"
+                icon="icons/ok.png"
+                invoke="save"
+                shortcut="CTRL-ENTER"/>
+        <action id="cancel"
+                caption="mainMsg://actions.Cancel"
+                icon="icons/cancel.png"
+                invoke="cancel"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <split id="split"
+               height="100%"
+               orientation="horizontal"
+               reversePosition="true"
+               width="100%">
+            <vbox id="lookupBox"
+                  expand="invoicesesTable"
+                  height="100%"
+                  margin="false,true,false,false"
+                  spacing="true">
+                <filter id="filter"
+                        applyTo="invoicesesTable"
+                        datasource="invoicesesDs">
+                    <properties include=".*"/>
+                </filter>
+                <table id="invoicesesTable"
+                       width="100%">
+                    <actions>
+                        <action id="create"/>
+                        <action id="edit"/>
+                        <action id="remove"/>
+                        <action id="excel"/>
+                    </actions>
+                    <columns>
+                        <column id="invoiceDate"/>
+                        <column id="invoiceDue"/>
+                        <column id="invoiceStatus"/>
+                        <column id="shipDate"/>
+                        <column id="invoicePatient"/>
+                    </columns>
+                    <rows datasource="invoicesesDs"/>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn"
+                                action="invoicesesTable.create"/>
+                        <button id="editBtn"
+                                action="invoicesesTable.edit"/>
+                        <button id="removeBtn"
+                                action="invoicesesTable.remove"/>
+                        <button id="excelBtn"
+                                action="invoicesesTable.excel"/>
+                    </buttonsPanel>
+                </table>
+            </vbox>
+            <vbox id="editBox"
+                  expand="tabSheetBox"
+                  height="100%"
+                  margin="false,false,false,true"
+                  spacing="true">
+                <vbox id="tabSheetBox">
+                    <tabSheet id="tabSheet"
+                              height="100%">
+                        <tab id="mainTab"
+                             caption="msg://mainTab"
+                             margin="true">
+                            <fieldGroup id="fieldGroup"
+                                        datasource="invoicesDs">
+                                <column width="250px">
+                                    <field id="invoiceDate"/>
+                                    <field id="invoiceDue"/>
+                                    <field id="invoiceStatus"/>
+                                    <field id="shipDate"/>
+                                    <field id="invoicePatient"/>
+                                </column>
+                            </fieldGroup>
+                        </tab>
+                        <tab id="detailsTab"
+                             caption="msg://com.company.cubavisionclinic.entity/Invoices.details"
+                             margin="true,false,false,false">
+                            <groupBox id="detailsBox"
+                                      caption="msg://com.company.cubavisionclinic.entity/Invoices.details">
+                                <table id="detailsTable"
+                                       height="200px"
+                                       width="100%">
+                                    <actions>
+                                        <action id="create"/>
+                                        <action id="edit"/>
+                                        <action id="remove"/>
+                                    </actions>
+                                    <columns>
+                                        <column id="quantity"/>
+                                        <column id="unitPrice"/>
+                                        <column id="productProductid"/>
+                                    </columns>
+                                    <rows datasource="detailsDs"/>
+                                    <buttonsPanel>
+                                        <button action="detailsTable.create"/>
+                                        <button action="detailsTable.edit"/>
+                                        <button action="detailsTable.remove"/>
+                                    </buttonsPanel>
+                                </table>
+                            </groupBox>
+                        </tab>
+                    </tabSheet>
+                </vbox>
+                <hbox id="actionsPane"
+                      spacing="true"
+                      visible="false">
+                    <button id="saveBtn"
+                            action="save"/>
+                    <button id="cancelBtn"
+                            action="cancel"/>
+                </hbox>
+            </vbox>
+        </split>
+    </layout>
+</window>

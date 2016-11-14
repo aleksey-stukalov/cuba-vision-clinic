@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editCaption"
+        class="com.company.cubavisionclinic.web.patients.PatientsEdit"
+        datasource="patientsDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.company.cubavisionclinic.web.patients">
+    <dsContext>
+        <datasource id="patientsDs"
+                    class="com.company.cubavisionclinic.entity.Patients"
+                    view="_local"/>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="patientsDs">
+            <column width="250px">
+                <field id="name"/>
+                <field id="street"/>
+                <field id="street2"/>
+                <field id="city"/>
+                <field id="state"/>
+                <field id="zip"/>
+                <field id="primaryPhone"/>
+                <field id="secondaryPhone"/>
+                <field id="email"/>
+                <field id="policyNumber"/>
+            </column>
+        </fieldGroup>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

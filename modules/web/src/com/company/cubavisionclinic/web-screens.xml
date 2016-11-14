@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<screen-config xmlns="http://schemas.haulmont.com/cuba/screens.xsd">
+    <include file="com/company/cubavisionclinic/screens.xml"/>
+    <screen id="cubavisionclinic$Appointments.browse"
+            template="com/company/cubavisionclinic/web/appointments/appointments-browse.xml"/>
+    <screen id="cubavisionclinic$InvoiceDetails.edit"
+            template="com/company/cubavisionclinic/web/invoicedetails/invoice-details-edit.xml"/>
+    <screen id="cubavisionclinic$Invoices.browse"
+            template="com/company/cubavisionclinic/web/invoices/invoices-browse.xml"/>
+    <screen id="cubavisionclinic$Patients.edit"
+            template="com/company/cubavisionclinic/web/patients/patients-edit.xml"/>
+    <screen id="cubavisionclinic$Patients.browse"
+            template="com/company/cubavisionclinic/web/patients/patients-browse.xml"/>
+    <screen id="cubavisionclinic$Product.browse"
+            template="com/company/cubavisionclinic/web/product/product-browse.xml"/>
+    <screen id="cubavisionclinic$ProductRebate.edit"
+            template="com/company/cubavisionclinic/web/productrebate/product-rebate-edit.xml"/>
+</screen-config>

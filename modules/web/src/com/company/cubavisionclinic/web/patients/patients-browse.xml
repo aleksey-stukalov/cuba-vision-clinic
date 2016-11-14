@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.cubavisionclinic.web.patients.PatientsBrowse"
+        focusComponent="patientsesTable"
+        lookupComponent="patientsesTable"
+        messagesPack="com.company.cubavisionclinic.web.patients">
+    <dsContext>
+        <collectionDatasource id="patientsesDs"
+                              class="com.company.cubavisionclinic.entity.Patients"
+                              view="_local">
+            <query>
+                <![CDATA[select e from cubavisionclinic$Patients e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="patientsesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="patientsesTable"
+                datasource="patientsesDs">
+            <properties include=".*"/>
+        </filter>
+        <table id="patientsesTable"
+               width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="street"/>
+                <column id="street2"/>
+                <column id="city"/>
+                <column id="state"/>
+                <column id="zip"/>
+                <column id="primaryPhone"/>
+                <column id="secondaryPhone"/>
+                <column id="email"/>
+                <column id="policyNumber"/>
+            </columns>
+            <rows datasource="patientsesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="patientsesTable.create"/>
+                <button id="editBtn"
+                        action="patientsesTable.edit"/>
+                <button id="removeBtn"
+                        action="patientsesTable.remove"/>
+            </buttonsPanel>
+        </table>
+    </layout>
+</window>

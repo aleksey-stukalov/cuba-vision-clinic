@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             version="2.0">
+    <persistence-unit name="cuba-vision-clinic"
+                      transaction-type="RESOURCE_LOCAL">
+        <class>com.company.cubavisionclinic.entity.Appointments</class>
+        <class>com.company.cubavisionclinic.entity.InvoiceDetails</class>
+        <class>com.company.cubavisionclinic.entity.Invoices</class>
+        <class>com.company.cubavisionclinic.entity.Patients</class>
+        <class>com.company.cubavisionclinic.entity.Product</class>
+        <class>com.company.cubavisionclinic.entity.ProductRebate</class>
+    </persistence-unit>
+</persistence>

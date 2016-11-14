@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editCaption"
+        class="com.company.cubavisionclinic.web.productrebate.ProductRebateEdit"
+        datasource="productRebateDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.company.cubavisionclinic.web.productrebate">
+    <dsContext>
+        <datasource id="productRebateDs"
+                    class="com.company.cubavisionclinic.entity.ProductRebate"
+                    view="ProductRebate-screen-view"/>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="productRebateDs">
+            <column width="250px">
+                <field id="productID"/>
+                <field id="rebateStart"/>
+                <field id="rebateEnd"/>
+                <field id="rebate"/>
+            </column>
+        </fieldGroup>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

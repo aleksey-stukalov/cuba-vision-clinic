@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.cubavisionclinic.web.product.ProductBrowse"
+        focusComponent="productsTable"
+        lookupComponent="productsTable"
+        messagesPack="com.company.cubavisionclinic.web.product">
+    <dsContext>
+        <datasource id="productDs"
+                    class="com.company.cubavisionclinic.entity.Product"
+                    view="product-edit-view">
+            <collectionDatasource id="rebatesDs"
+                                  property="rebates"/>
+        </datasource>
+        <collectionDatasource id="productsDs"
+                              class="com.company.cubavisionclinic.entity.Product"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from cubavisionclinic$Product e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="relatedProductsDs"
+                              class="com.company.cubavisionclinic.entity.Product"
+                              view="_local">
+            <query>
+                <![CDATA[select e from cubavisionclinic$Product e
+where :ds$productDs.category = e.category and :ds$productDs.id <> e.id]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <actions>
+        <action id="save"
+                caption="mainMsg://actions.Ok"
+                icon="icons/ok.png"
+                invoke="save"
+                shortcut="CTRL-ENTER"/>
+        <action id="cancel"
+                caption="mainMsg://actions.Cancel"
+                icon="icons/cancel.png"
+                invoke="cancel"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <split id="split"
+               height="100%"
+               orientation="horizontal"
+               reversePosition="true"
+               width="100%">
+            <vbox id="lookupBox"
+                  expand="productsTable"
+                  height="100%"
+                  margin="false,true,false,false"
+                  spacing="true">
+                <filter id="filter"
+                        applyTo="productsTable"
+                        datasource="productsDs">
+                    <properties include=".*"/>
+                </filter>
+                <table id="productsTable"
+                       width="100%">
+                    <actions>
+                        <action id="create"/>
+                        <action id="edit"/>
+                        <action id="remove"/>
+                        <action id="excel"/>
+                    </actions>
+                    <columns>
+                        <column id="productName"/>
+                    </columns>
+                    <rows datasource="productsDs"/>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn"
+                                action="productsTable.create"/>
+                        <button id="editBtn"
+                                action="productsTable.edit"/>
+                        <button id="removeBtn"
+                                action="productsTable.remove"/>
+                        <button id="excelBtn"
+                                action="productsTable.excel"/>
+                    </buttonsPanel>
+                </table>
+            </vbox>
+            <vbox id="editBox"
+                  expand="tabSheetBox"
+                  height="100%"
+                  margin="false,false,false,true"
+                  spacing="true">
+                <vbox id="tabSheetBox">
+                    <tabSheet id="tabSheet"
+                              height="100%">
+                        <tab id="mainTab"
+                             caption="msg://mainTab"
+                             expand="groupBox"
+                             margin="true"
+                             spacing="true">
+                            <hbox spacing="true">
+                                <fieldGroup id="fieldGroup"
+                                            datasource="productDs">
+                                    <column width="250px">
+                                        <field id="productName"/>
+                                        <field id="msrp"/>
+                                        <field id="description"
+                                               rows="5"/>
+                                        <field id="category"
+                                               rows="5"/>
+                                    </column>
+                                </fieldGroup>
+                                <embedded id="productImage"
+                                          height="250px"/>
+                            </hbox>
+                            <groupBox id="groupBox"
+                                      caption="msg://relatedProducts">
+                                <table id="relatedProductsTable"
+                                       height="100%"
+                                       multiLineCells="true"
+                                       width="100%">
+                                    <columns>
+                                        <column id="productName"/>
+                                        <column id="msrp"/>
+                                        <column id="description"/>
+                                        <column id="productImage"
+                                                generator="generateProductImageCell"/>
+                                        <column id="category"/>
+                                    </columns>
+                                    <rows datasource="relatedProductsDs"/>
+                                </table>
+                            </groupBox>
+                        </tab>
+                        <tab id="rebatesTab"
+                             caption="msg://com.company.cubavisionclinic.entity/Product.rebates"
+                             margin="true,false,false,false">
+                            <groupBox id="rebatesBox"
+                                      caption="msg://com.company.cubavisionclinic.entity/Product.rebates">
+                                <table id="rebatesTable"
+                                       height="200px"
+                                       width="100%">
+                                    <actions>
+                                        <action id="create"/>
+                                        <action id="edit"/>
+                                        <action id="remove"/>
+                                    </actions>
+                                    <columns>
+                                        <column id="rebateStart"/>
+                                        <column id="rebateEnd"/>
+                                        <column id="rebate"/>
+                                    </columns>
+                                    <rows datasource="rebatesDs"/>
+                                    <buttonsPanel>
+                                        <button action="rebatesTable.create"/>
+                                        <button action="rebatesTable.edit"/>
+                                        <button action="rebatesTable.remove"/>
+                                    </buttonsPanel>
+                                </table>
+                            </groupBox>
+                        </tab>
+                    </tabSheet>
+                </vbox>
+                <hbox id="actionsPane"
+                      spacing="true"
+                      visible="false">
+                    <button id="saveBtn"
+                            action="save"/>
+                    <button id="cancelBtn"
+                            action="cancel"/>
+                </hbox>
+            </vbox>
+        </split>
+    </layout>
+</window>

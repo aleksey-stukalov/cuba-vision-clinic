@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
+    <view class="com.company.cubavisionclinic.entity.Appointments"
+          extends="_local"
+          name="Appointments-screen-view">
+        <property name="appointmentPatient"
+                  view="_minimal"/>
+    </view>
+    <view class="com.company.cubavisionclinic.entity.InvoiceDetails"
+          extends="_local"
+          name="InvoiceDetails-screen-view">
+        <property name="productProductid"
+                  view="_minimal"/>
+        <property name="invoiceInvoicedetail"
+                  view="_minimal"/>
+    </view>
+    <view class="com.company.cubavisionclinic.entity.ProductRebate"
+          extends="_local"
+          name="ProductRebate-screen-view">
+        <property name="productID"
+                  view="_minimal"/>
+    </view>
+    <view class="com.company.cubavisionclinic.entity.Invoices"
+          extends="_local"
+          name="invoices-browser-view">
+        <property name="invoicePatient"
+                  view="_minimal"/>
+    </view>
+    <view class="com.company.cubavisionclinic.entity.Invoices"
+          extends="invoices-browser-view"
+          name="invoices-edit-view">
+        <property name="details"
+                  view="_local">
+            <property name="productProductid"
+                      view="_minimal"/>
+        </property>
+    </view>
+    <view class="com.company.cubavisionclinic.entity.Product"
+          extends="_local"
+          name="product-edit-view">
+        <property name="rebates"
+                  view="_local"/>
+    </view>
+</views>
