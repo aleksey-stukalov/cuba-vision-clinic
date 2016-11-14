@@ -1,18 +1,16 @@
 package com.company.cubavisionclinic.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import com.haulmont.chile.core.annotations.NamePattern;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.AttributeOverride;
-import javax.persistence.Column;
-import com.haulmont.cuba.core.global.DesignSupport;
-import java.math.BigDecimal;
-import javax.persistence.Lob;
-import com.haulmont.cuba.core.entity.BaseIdentityIdEntity;
 import com.haulmont.chile.core.annotations.Composition;
+import com.haulmont.chile.core.annotations.MetaProperty;
+import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.BaseIdentityIdEntity;
+import com.haulmont.cuba.core.global.DesignSupport;
+import com.haulmont.cuba.core.global.PersistenceHelper;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Set;
-import javax.persistence.OneToMany;
 
 @DesignSupport("{'imported':true}")
 @AttributeOverrides({
@@ -52,7 +50,6 @@ public class Product extends BaseIdentityIdEntity {
     public Set<ProductRebate> getRebates() {
         return rebates;
     }
-
 
     public void setProductName(String productName) {
         this.productName = productName;
@@ -94,5 +91,23 @@ public class Product extends BaseIdentityIdEntity {
         return category;
     }
 
+    @MetaProperty
+    public BigDecimal getCurrentPrice() {
+        if (msrp == null)
+            return null;
 
+        if (PersistenceHelper.isLoaded(this, "rebates")) {
+            final Date now = new Date();
+            BigDecimal totalRebate = rebates.stream()
+                    .filter(e ->
+                            (e.rebateStart == null || now.after(e.rebateStart))
+                                    && (e.rebateEnd == null || now.before(e.rebateEnd))
+                                    && e.rebate != null
+                    )
+                    .map(ProductRebate::getRebate)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            return msrp.subtract(totalRebate);
+        }
+        return null;
+    }
 }
