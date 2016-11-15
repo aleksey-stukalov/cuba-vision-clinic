@@ -116,7 +116,9 @@
                                     </actions>
                                     <columns>
                                         <column id="quantity"/>
-                                        <column id="unitPrice"/>
+                                        <column id="unitPrice">
+                                            <formatter class="com.company.cubavisionclinic.web.formatters.CurrencyFormatter"/>
+                                        </column>
                                         <column id="productProductid"/>
                                     </columns>
                                     <rows datasource="detailsDs"/>

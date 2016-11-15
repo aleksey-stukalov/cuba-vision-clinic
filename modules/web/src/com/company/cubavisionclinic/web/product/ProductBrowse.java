@@ -15,11 +15,15 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
+
 import com.haulmont.cuba.core.entity.IdProxy;
 import com.haulmont.cuba.gui.xml.layout.ComponentsFactory;
+import org.apache.commons.compress.utils.IOUtils;
+import org.slf4j.Logger;
 
 public class ProductBrowse extends AbstractLookup {
 
@@ -42,12 +46,13 @@ public class ProductBrowse extends AbstractLookup {
 
     @Inject
     private FieldGroup fieldGroup;
+
     @Inject
     private TabSheet tabSheet;
-    
+
     @Named("productsTable.remove")
     private RemoveAction productsTableRemove;
-    
+
     @Inject
     private DataSupplier dataSupplier;
 
@@ -56,6 +61,12 @@ public class ProductBrowse extends AbstractLookup {
 
     @Inject
     private Embedded productImage;
+
+    @Inject
+    private FileUploadField imageUpload;
+
+    @Inject
+    private Logger log;
 
     private boolean creating;
 
@@ -71,14 +82,13 @@ public class ProductBrowse extends AbstractLookup {
                 generateImage(productDs.getItem(), null, productImage);
             }
         });
-        
+
         productsTable.addAction(new CreateAction(productsTable) {
             @Override
             protected void internalOpenEditor(CollectionDatasource datasource, Entity newItem, Datasource parentDs, Map<String, Object> params) {
                 productsTable.setSelected(Collections.emptyList());
                 productDs.setItem((Product) newItem);
                 enableEditControls(true);
-
                 productImage.resetSource();
             }
         });
@@ -91,9 +101,42 @@ public class ProductBrowse extends AbstractLookup {
                 }
             }
         });
-        
+
+        //TODO: comment
+        imageUpload.addFileUploadSucceedListener(event -> {
+            Product product = productDs.getItem();
+            if (product != null && imageUpload.getFileContent() != null) {
+                try {
+                    product.setProductImage(IOUtils.toByteArray(imageUpload.getFileContent()));
+                    generateImage(product, null, productImage);
+                } catch (IOException e) {
+                    log.error("Error happened while converting content of upload filed to byte array", e);
+                    showNotification(getMessage("fileUploadErrorMessage"), NotificationType.ERROR);
+                }
+            }
+            imageUpload.setValue(null);
+        });
+
+        //TODO: comment
+        imageUpload.addBeforeValueClearListener(beforeEvent -> {
+            beforeEvent.preventClearAction();
+            showOptionDialog("", "Are you sure you want to delete this photo?", MessageType.CONFIRMATION,
+                    new Action[]{
+                            new DialogAction(DialogAction.Type.YES, Action.Status.PRIMARY) {
+                                public void actionPerform(Component component) {
+                                    productDs.getItem().setProductImage(null);
+                                    productImage.resetSource();
+                                }
+                            },
+                            new DialogAction(DialogAction.Type.NO, Action.Status.NORMAL)
+                    });
+        });
+
         productsTableRemove.setAfterRemoveHandler(removedItems -> productDs.setItem(null));
-        
+
+        //TODO: comment
+        productImage.resetSource();
+
         disableEditControls();
     }
 
@@ -125,6 +168,8 @@ public class ProductBrowse extends AbstractLookup {
 
     private void enableEditControls(boolean creating) {
         this.creating = creating;
+        if (creating)
+            productImage.setVisible(false);
         initEditComponents(true);
         fieldGroup.requestFocus();
     }
@@ -144,12 +189,21 @@ public class ProductBrowse extends AbstractLookup {
         });
         actionsPane.setVisible(enabled);
         lookupBox.setEnabled(!enabled);
+
+        //TODO: comment
+        imageUpload.setEnabled(enabled);
     }
 
     public Component generateProductImageCell(Product entity) {
-		return generateImage(entity, IMAGE_CELL_HEIGHT, null);
+        return generateImage(entity, IMAGE_CELL_HEIGHT, null);
     }
 
+    /**
+     * @param product
+     * @param height
+     * @param displayComponent
+     * @return The {@link Embedded} instance that contains
+     */
     @Nullable
     private Embedded generateImage(Product product, String height, Embedded displayComponent) {
         if (product == null || product.getProductImage() == null) {

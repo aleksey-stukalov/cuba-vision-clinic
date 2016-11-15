@@ -101,7 +101,8 @@ where :ds$productDs.category = e.category and :ds$productDs.id <> e.id]]>
                                             datasource="productDs">
                                     <column width="250px">
                                         <field id="productName"/>
-                                        <field id="msrp"/>
+                                        <field id="msrp"
+                                               caption="msg://msrp"/>
                                         <field id="description"
                                                rows="5"/>
                                         <field id="category"
@@ -112,6 +113,12 @@ where :ds$productDs.category = e.category and :ds$productDs.id <> e.id]]>
                                 <embedded id="productImage"
                                           height="250px"/>
                             </hbox>
+                            <upload id="imageUpload"
+                                    accept="*.jpg,*.png"
+                                    caption="msg://imageUpload"
+                                    fileSizeLimit="1024000"
+                                    showClearButton="true"
+                                    showFileName="true"/>
                             <groupBox id="groupBox"
                                       caption="msg://relatedProducts">
                                 <table id="relatedProductsTable"
@@ -120,7 +127,10 @@ where :ds$productDs.category = e.category and :ds$productDs.id <> e.id]]>
                                        width="100%">
                                     <columns>
                                         <column id="productName"/>
-                                        <column id="msrp"/>
+                                        <column id="msrp"
+                                                caption="msg://msrp">
+                                            <formatter class="com.company.cubavisionclinic.web.formatters.CurrencyFormatter"/>
+                                        </column>
                                         <column id="description"/>
                                         <column id="productImage"
                                                 generator="generateProductImageCell"/>
