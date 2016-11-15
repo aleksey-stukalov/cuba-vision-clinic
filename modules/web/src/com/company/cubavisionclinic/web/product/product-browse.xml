@@ -106,6 +106,7 @@ where :ds$productDs.category = e.category and :ds$productDs.id <> e.id]]>
                                                rows="5"/>
                                         <field id="category"
                                                rows="5"/>
+                                        <field id="currentPrice"/>
                                     </column>
                                 </fieldGroup>
                                 <embedded id="productImage"
