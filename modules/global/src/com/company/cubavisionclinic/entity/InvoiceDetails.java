@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2008-2016 Haulmont.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.company.cubavisionclinic.entity;
 
 import com.haulmont.chile.core.annotations.MetaProperty;
@@ -74,6 +90,15 @@ public class InvoiceDetails extends BaseIdentityIdEntity implements Updatable, C
         this.invoiceInvoicedetail = invoiceInvoicedetail;
     }
 
+    /**
+     * Calculates the subTotal for an invoice line
+     *
+     * <p/>The property is non-persistent and relates to
+     * {@link InvoiceDetails#quantity} and {@link InvoiceDetails#unitPrice} attributes,
+     * so they should be fetched from the database if the subTotal field is included into a view
+     *
+     * @return The {@link BigDecimal} instance, representing the total price for all units
+     */
     @MetaProperty(related = "quantity,unitPrice")
     public BigDecimal getSubTotal() {
         if (quantity == null || unitPrice == null)
