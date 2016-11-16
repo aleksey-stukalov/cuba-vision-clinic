@@ -4,3 +4,5 @@ This project shows how your LightSwitch application could look after migration t
 
 Migration is done automatically by reverse-engineering functionality, provided by the CUBA Studio.
 
+
+
