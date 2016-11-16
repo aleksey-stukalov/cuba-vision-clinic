@@ -2,6 +2,7 @@ package com.company.cubavisionclinic.web.product;
 
 import com.company.cubavisionclinic.entity.Product;
 import com.haulmont.cuba.core.entity.Entity;
+import com.haulmont.cuba.core.entity.IdProxy;
 import com.haulmont.cuba.gui.ComponentsHelper;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
@@ -10,6 +11,9 @@ import com.haulmont.cuba.gui.components.actions.RemoveAction;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 import com.haulmont.cuba.gui.data.DataSupplier;
 import com.haulmont.cuba.gui.data.Datasource;
+import com.haulmont.cuba.gui.xml.layout.ComponentsFactory;
+import org.apache.commons.compress.utils.IOUtils;
+import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -18,12 +22,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
-import java.util.UUID;
-
-import com.haulmont.cuba.core.entity.IdProxy;
-import com.haulmont.cuba.gui.xml.layout.ComponentsFactory;
-import org.apache.commons.compress.utils.IOUtils;
-import org.slf4j.Logger;
 
 public class ProductBrowse extends AbstractLookup {
 
@@ -72,13 +70,15 @@ public class ProductBrowse extends AbstractLookup {
 
     @Override
     public void init(Map<String, Object> params) {
-        productImage.resetSource();
 
         productsDs.addItemChangeListener(e -> {
             if (e.getItem() != null) {
                 Product reloadedItem = dataSupplier.reload(e.getDs().getItem(), productDs.getView());
                 productDs.setItem(reloadedItem);
 
+                /**
+                 * update image in the {@link ProductBrowse#productImage} component if selected {@link Product} is changed
+                 */
                 generateImage(productDs.getItem(), null, productImage);
             }
         });
@@ -102,7 +102,9 @@ public class ProductBrowse extends AbstractLookup {
             }
         });
 
-        //TODO: comment
+        /**
+         * Listener updates the {@link Product#productImage} field after file has been successfully uploaded
+         */
         imageUpload.addFileUploadSucceedListener(event -> {
             Product product = productDs.getItem();
             if (product != null && imageUpload.getFileContent() != null) {
@@ -117,7 +119,10 @@ public class ProductBrowse extends AbstractLookup {
             imageUpload.setValue(null);
         });
 
-        //TODO: comment
+        /**
+         * Handles clear button clicked event, asking for action confirmation
+         * and clearing the {@link Product#productImage} field if confirmed
+         */
         imageUpload.addBeforeValueClearListener(beforeEvent -> {
             beforeEvent.preventClearAction();
             showOptionDialog("", "Are you sure you want to delete this photo?", MessageType.CONFIRMATION,
@@ -134,7 +139,9 @@ public class ProductBrowse extends AbstractLookup {
 
         productsTableRemove.setAfterRemoveHandler(removedItems -> productDs.setItem(null));
 
-        //TODO: comment
+        /**
+         * Hides the default image when screen is just opened
+         */
         productImage.resetSource();
 
         disableEditControls();
@@ -164,12 +171,15 @@ public class ProductBrowse extends AbstractLookup {
         }
 
         disableEditControls();
+
+        /**
+         * regenerate {@link productImage} when cancelling edit action
+         */
+        generateImage(selectedItem, null, productImage);
     }
 
     private void enableEditControls(boolean creating) {
         this.creating = creating;
-        if (creating)
-            productImage.setVisible(false);
         initEditComponents(true);
         fieldGroup.requestFocus();
     }
@@ -190,19 +200,31 @@ public class ProductBrowse extends AbstractLookup {
         actionsPane.setVisible(enabled);
         lookupBox.setEnabled(!enabled);
 
-        //TODO: comment
-        imageUpload.setEnabled(enabled);
+        /**
+         * Enabling/disabling file upload control, depending if the screen is in editing mode or not
+         */
+        imageUpload.setVisible(enabled);
     }
 
+    /**
+     * Method is used in the screen descriptor for generating component
+     * in the productImage column of the relatedProductsTable
+     *
+     * @param entity Instance that is represented in the row
+     * @return The {@link Component} instance to be placed in the cell
+     */
     public Component generateProductImageCell(Product entity) {
         return generateImage(entity, IMAGE_CELL_HEIGHT, null);
     }
 
     /**
-     * @param product
-     * @param height
-     * @param displayComponent
-     * @return The {@link Embedded} instance that contains
+     * Generates or updates visual representation for {@link Product#productImage}
+     *
+     * @param product Instance of the {@link Product} entity, which image should be displayed
+     * @param height Is set to the returned {@link Embedded} instance if not null
+     * @param displayComponent Existing {@link Embedded} component, used to display an image
+     *                         <p/>If null - method will return a newly created instance
+     * @return The {@link Embedded} instance that shows image, stored as array of bytes in {@link Product#productImage}
      */
     @Nullable
     private Embedded generateImage(Product product, String height, Embedded displayComponent) {
@@ -216,7 +238,7 @@ public class ProductBrowse extends AbstractLookup {
         if (embedded == null)
             embedded = (Embedded) componentsFactory.createComponent(Embedded.NAME);
 
-        embedded.setSource(product.getProductName(), new ByteArrayInputStream(product.getProductImage()));
+        embedded.setSource("productImage", new ByteArrayInputStream(product.getProductImage()));
         if (height != null)
             embedded.setHeight(height);
 

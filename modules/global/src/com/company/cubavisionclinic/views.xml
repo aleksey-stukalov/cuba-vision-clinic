@@ -10,7 +10,8 @@
           extends="_local"
           name="InvoiceDetails-screen-view">
         <property name="productProductid"
-                  view="_minimal"/>
+                  view="_minimal">
+        </property>
         <property name="invoiceInvoicedetail"
                   view="_minimal"/>
     </view>
@@ -25,6 +26,11 @@
           name="invoices-browser-view">
         <property name="invoicePatient"
                   view="_minimal"/>
+        <property name="details"
+                  view="_minimal">
+            <property name="unitPrice"/>
+            <property name="subTotal"/>
+        </property>
     </view>
     <view class="com.company.cubavisionclinic.entity.Invoices"
           extends="invoices-browser-view"
@@ -32,12 +38,22 @@
         <property name="details"
                   view="_local">
             <property name="productProductid"
-                      view="_minimal"/>
+                      view="_minimal">
+                <property name="msrp"/>
+                <property name="rebates"
+                          view="_local"/>
+            </property>
         </property>
     </view>
     <view class="com.company.cubavisionclinic.entity.Product"
           extends="_local"
           name="product-edit-view">
+        <property name="rebates"
+                  view="_local"/>
+    </view>
+    <view class="com.company.cubavisionclinic.entity.Product"
+          name="product-current-price-view">
+        <property name="msrp"/>
         <property name="rebates"
                   view="_local"/>
     </view>

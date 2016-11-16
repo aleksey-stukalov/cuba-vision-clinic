@@ -9,6 +9,13 @@
         <datasource id="invoiceDetailsDs"
                     class="com.company.cubavisionclinic.entity.InvoiceDetails"
                     view="InvoiceDetails-screen-view"/>
+        <collectionDatasource id="productProductidsDs"
+                              class="com.company.cubavisionclinic.entity.Product"
+                              view="_minimal">
+            <query>
+                <![CDATA[select e from cubavisionclinic$Product e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
@@ -17,10 +24,10 @@
         <fieldGroup id="fieldGroup"
                     datasource="invoiceDetailsDs">
             <column width="250px">
+                <field id="productProductid"
+                       optionsDatasource="productProductidsDs"/>
                 <field id="quantity"/>
                 <field id="unitPrice"/>
-                <field id="productProductid"/>
-                <field id="invoiceInvoicedetail"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"
