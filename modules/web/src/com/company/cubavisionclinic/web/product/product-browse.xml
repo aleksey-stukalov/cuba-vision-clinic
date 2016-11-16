@@ -105,20 +105,21 @@ where :ds$productDs.category = e.category and :ds$productDs.id <> e.id]]>
                                                caption="msg://msrp"/>
                                         <field id="description"
                                                rows="5"/>
-                                        <field id="category"
-                                               rows="5"/>
+                                        <field id="category"/>
                                         <field id="currentPrice"/>
                                     </column>
                                 </fieldGroup>
-                                <embedded id="productImage"
-                                          height="250px"/>
+                                <vbox spacing="true">
+                                    <embedded id="productImage"
+                                              align="MIDDLE_CENTER"
+                                              height="250px"/>
+                                    <upload id="imageUpload"
+                                            accept="*.jpg,*.png"
+                                            align="MIDDLE_CENTER"
+                                            fileSizeLimit="1024000"
+                                            showClearButton="true"/>
+                                </vbox>
                             </hbox>
-                            <upload id="imageUpload"
-                                    accept="*.jpg,*.png"
-                                    caption="msg://imageUpload"
-                                    fileSizeLimit="1024000"
-                                    showClearButton="true"
-                                    showFileName="true"/>
                             <groupBox id="groupBox"
                                       caption="msg://relatedProducts">
                                 <table id="relatedProductsTable"

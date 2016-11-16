@@ -1,20 +1,15 @@
 package com.company.cubavisionclinic.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.haulmont.chile.core.annotations.MetaProperty;
+import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.BaseIdentityIdEntity;
+import com.haulmont.cuba.core.entity.Creatable;
+import com.haulmont.cuba.core.entity.Updatable;
 import com.haulmont.cuba.core.global.DesignSupport;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import com.haulmont.cuba.core.entity.BaseIdentityIdEntity;
-import com.haulmont.cuba.core.entity.Updatable;
-import com.haulmont.cuba.core.entity.Creatable;
-import com.haulmont.chile.core.annotations.NamePattern;
 
 @NamePattern("%s x%s|productProductid,quantity")
 @DesignSupport("{'imported':true,'unmappedColumns':['RowVersion']}")
@@ -77,6 +72,14 @@ public class InvoiceDetails extends BaseIdentityIdEntity implements Updatable, C
 
     public void setInvoiceInvoicedetail(Invoices invoiceInvoicedetail) {
         this.invoiceInvoicedetail = invoiceInvoicedetail;
+    }
+
+    @MetaProperty(related = "quantity,unitPrice")
+    public BigDecimal getSubTotal() {
+        if (quantity == null || unitPrice == null)
+            return null;
+
+        return unitPrice.multiply(new BigDecimal(quantity));
     }
 
     public Invoices getInvoiceInvoicedetail() {

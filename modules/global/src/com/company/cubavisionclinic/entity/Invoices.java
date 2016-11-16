@@ -1,22 +1,18 @@
 package com.company.cubavisionclinic.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import com.haulmont.cuba.core.global.DesignSupport;
-import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import com.haulmont.cuba.core.entity.BaseIdentityIdEntity;
-import com.haulmont.cuba.core.entity.Updatable;
-import com.haulmont.cuba.core.entity.Creatable;
 import com.haulmont.chile.core.annotations.Composition;
-import java.util.Set;
-import javax.persistence.OneToMany;
+import com.haulmont.chile.core.annotations.MetaProperty;
 import com.haulmont.chile.core.annotations.NamePattern;
+import com.haulmont.cuba.core.entity.BaseIdentityIdEntity;
+import com.haulmont.cuba.core.entity.Creatable;
+import com.haulmont.cuba.core.entity.Updatable;
+import com.haulmont.cuba.core.global.DesignSupport;
+import com.haulmont.cuba.core.global.PersistenceHelper;
+
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Set;
 
 @NamePattern("%s - %s|id,invoiceDate")
 @DesignSupport("{'imported':true,'unmappedColumns':['RowVersion']}")
@@ -110,6 +106,34 @@ public class Invoices extends BaseIdentityIdEntity implements Updatable, Creatab
 
     public Patients getInvoicePatient() {
         return invoicePatient;
+    }
+
+    @MetaProperty
+    public BigDecimal getSubTotal() {
+        if (PersistenceHelper.isLoaded(this, "details")) {
+            return details.stream()
+                    .map(InvoiceDetails::getSubTotal)
+                    .filter(e -> e != null)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+        }
+        return null;
+    }
+
+    @MetaProperty
+    public BigDecimal getTax() {
+        BigDecimal subTotal = getSubTotal();
+        return subTotal == null ? null : subTotal.multiply(new BigDecimal(0.095));
+    }
+
+    @MetaProperty
+    public BigDecimal getTotal() {
+        BigDecimal subTotal = getSubTotal();
+        BigDecimal tax = getTax();
+
+        if (subTotal == null || tax == null)
+            return null;
+        else
+            return subTotal.add(tax);
     }
 
     @Override

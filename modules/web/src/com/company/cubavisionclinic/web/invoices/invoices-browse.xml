@@ -63,6 +63,15 @@
                         <column id="invoiceStatus"/>
                         <column id="shipDate"/>
                         <column id="invoicePatient"/>
+                        <column id="subTotal">
+                            <formatter class="com.company.cubavisionclinic.web.formatters.CurrencyFormatter"/>
+                        </column>
+                        <column id="tax">
+                            <formatter class="com.company.cubavisionclinic.web.formatters.CurrencyFormatter"/>
+                        </column>
+                        <column id="total">
+                            <formatter class="com.company.cubavisionclinic.web.formatters.CurrencyFormatter"/>
+                        </column>
                     </columns>
                     <rows datasource="invoicesesDs"/>
                     <rowsCount/>
@@ -98,6 +107,9 @@
                                     <field id="invoiceStatus"/>
                                     <field id="shipDate"/>
                                     <field id="invoicePatient"/>
+                                    <field id="subTotal"/>
+                                    <field id="tax"/>
+                                    <field id="total"/>
                                 </column>
                             </fieldGroup>
                         </tab>
@@ -115,11 +127,15 @@
                                         <action id="remove"/>
                                     </actions>
                                     <columns>
+                                        <column id="productProductid"/>
                                         <column id="quantity"/>
                                         <column id="unitPrice">
                                             <formatter class="com.company.cubavisionclinic.web.formatters.CurrencyFormatter"/>
                                         </column>
-                                        <column id="productProductid"/>
+                                        <column id="subTotal">
+                                            <formatter
+                                                    class="com.company.cubavisionclinic.web.formatters.CurrencyFormatter"/>
+                                        </column>
                                     </columns>
                                     <rows datasource="detailsDs"/>
                                     <buttonsPanel>
