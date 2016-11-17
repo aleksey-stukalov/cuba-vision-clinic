@@ -14,7 +14,6 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <screen-config xmlns="http://schemas.haulmont.com/cuba/screens.xsd">
     <include file="com/company/cubavisionclinic/screens.xml"/>
     <screen id="cubavisionclinic$Appointments.browse"

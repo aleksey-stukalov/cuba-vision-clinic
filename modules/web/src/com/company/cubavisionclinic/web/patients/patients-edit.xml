@@ -14,7 +14,6 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
         caption="msg://editCaption"
         class="com.company.cubavisionclinic.web.patients.PatientsEdit"
@@ -39,8 +38,12 @@
                 <field id="city"/>
                 <field id="state"/>
                 <field id="zip"/>
-                <field id="primaryPhone"/>
-                <field id="secondaryPhone"/>
+                <field id="primaryPhone"
+                       mask="(###) ###-####"
+                       valueMode="masked"/>
+                <field id="secondaryPhone"
+                       mask="(###) ###-####"
+                       valueMode="masked"/>
                 <field id="email"/>
                 <field id="policyNumber"/>
             </column>
