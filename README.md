@@ -7,4 +7,4 @@ Migration is done automatically by reverse-engineering functionality, provided b
 <img src="https://github.com/aleksey-stukalov/cuba-vision-clinic/blob/master/screenshots/LS-products-screen.png" alt="Product screen in LightSwitch app" height="250px">
 <img src="https://github.com/aleksey-stukalov/cuba-vision-clinic/blob/master/screenshots/CUBA-products-screen.png" alt="Product screen in CUBA app" height="250px">
 
-Find technical aspects of how to launch the application at [Wiki](https://github.com/aleksey-stukalov/cuba-vision-clinic/wiki).
+Find technical aspects of how to launch the application [here](https://github.com/aleksey-stukalov/cuba-vision-clinic/wiki).
