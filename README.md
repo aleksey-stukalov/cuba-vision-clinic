@@ -4,8 +4,8 @@ This project shows how your LightSwitch application could look after migration t
 
 Migration is done automatically by reverse-engineering functionality, provided by the CUBA Studio.
 
-![ls-application](screenshots/LS-products-screen.png =150x)
-![cuba-application](https://github.com/aleksey-stukalov/cuba-vision-clinic/blob/master/screenshots/CUBA-products-screen.png =150x)
+<img src="https://github.com/aleksey-stukalov/cuba-vision-clinic/blob/masterscreenshots/LS-products-screen.png" alt="Product screen in LightSwitch app" width="whatever" height="250px">
+<img src="https://github.com/aleksey-stukalov/cuba-vision-clinic/blob/master/screenshots/CUBA-products-screen.png" alt="Product screen in CUBA app" width="250px">
 
 
 
