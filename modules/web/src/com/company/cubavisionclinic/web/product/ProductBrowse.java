@@ -99,8 +99,6 @@ public class ProductBrowse extends AbstractLookup {
             } else {
                 productImage.resetSource();
             }
-
-
         });
 
         productsTable.addAction(new CreateAction(productsTable) {

@@ -121,8 +121,8 @@ public class Product extends BaseIdentityIdEntity {
             BigDecimal totalRebate = rebates.stream()
                     .filter(e ->
                             (e.rebateStart == null || now.after(e.rebateStart))
-                                    && (e.rebateEnd == null || now.before(e.rebateEnd))
-                                    && e.rebate != null
+                            && (e.rebateEnd == null || now.before(e.rebateEnd))
+                            && e.rebate != null
                     )
                     .map(ProductRebate::getRebate)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
