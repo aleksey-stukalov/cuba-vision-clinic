@@ -116,7 +116,7 @@ public class Product extends BaseIdentityIdEntity {
         if (msrp == null)
             return null;
 
-        if (PersistenceHelper.isLoaded(this, "rebates")) {
+        if (rebates != null && PersistenceHelper.isLoaded(this, "rebates")) {
             final Date now = new Date();
             BigDecimal totalRebate = rebates.stream()
                     .filter(e ->

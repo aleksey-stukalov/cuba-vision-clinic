@@ -19,6 +19,7 @@ package com.company.cubavisionclinic.web.product;
 import com.company.cubavisionclinic.entity.Product;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.entity.IdProxy;
+import com.haulmont.cuba.core.global.UuidProvider;
 import com.haulmont.cuba.gui.ComponentsHelper;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.components.actions.CreateAction;
@@ -91,12 +92,15 @@ public class ProductBrowse extends AbstractLookup {
             if (e.getItem() != null) {
                 Product reloadedItem = dataSupplier.reload(e.getDs().getItem(), productDs.getView());
                 productDs.setItem(reloadedItem);
-
                 /**
                  * update image in the {@link ProductBrowse#productImage} component if selected {@link Product} is changed
                  */
                 generateImage(productDs.getItem(), null, productImage);
+            } else {
+                productImage.resetSource();
             }
+
+
         });
 
         productsTable.addAction(new CreateAction(productsTable) {
@@ -189,6 +193,7 @@ public class ProductBrowse extends AbstractLookup {
 
         } else {
             productDs.setItem(null);
+            productImage.resetSource();
         }
 
         disableEditControls();
@@ -254,7 +259,7 @@ public class ProductBrowse extends AbstractLookup {
         if (embedded == null)
             embedded = (Embedded) componentsFactory.createComponent(Embedded.NAME);
 
-        embedded.setSource("productImage", new ByteArrayInputStream(product.getProductImage()));
+        embedded.setSource("productImage-" + UuidProvider.createUuid(), new ByteArrayInputStream(product.getProductImage()));
         if (height != null)
             embedded.setHeight(height);
 

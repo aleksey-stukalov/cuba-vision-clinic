@@ -130,7 +130,7 @@ public class Invoices extends BaseIdentityIdEntity implements Updatable, Creatab
      */
     @MetaProperty
     public BigDecimal getSubTotal() {
-        if (PersistenceHelper.isLoaded(this, "details")) {
+        if (details != null && PersistenceHelper.isLoaded(this, "details")) {
             return details.stream()
                     .map(InvoiceDetails::getSubTotal)
                     .filter(e -> e != null)
