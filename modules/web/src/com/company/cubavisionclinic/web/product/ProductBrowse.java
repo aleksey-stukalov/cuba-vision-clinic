@@ -182,16 +182,16 @@ public class ProductBrowse extends AbstractLookup {
         if (selectedItem != null) {
             Product reloadedItem = dataSupplier.reload(selectedItem, productDs.getView());
             productsDs.setItem(reloadedItem);
+            /**
+             * regenerate {@link productImage} when cancelling edit action
+             */
+            generateImage(reloadedItem, null, productImage);
+
         } else {
             productDs.setItem(null);
         }
 
         disableEditControls();
-
-        /**
-         * regenerate {@link productImage} when cancelling edit action
-         */
-        generateImage(selectedItem, null, productImage);
     }
 
     private void enableEditControls(boolean creating) {
