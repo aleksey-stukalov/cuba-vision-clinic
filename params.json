@@ -1,6 +1,0 @@
-{
-  "name": "Fast migration of legacy applications to CUBA Platform",
-  "tagline": "CUBA implementation of the MS LightSwitch Vision Clinic Sample",
-  "body": "# cuba-vision-clinic\r\n\r\nThis project shows how your LightSwitch application could look after migration to the [CUBA Platform](https://www.cuba-platform.com/), taking the official Microsoft [Vision Clinic Sample](https://code.msdn.microsoft.com/windowsdesktop/Visual-Studio-LightSwitch-c8e92df4) as an example.\r\n\r\nMigration is done automatically by the reverse-engineering functionality, provided by the CUBA Studio.\r\n\r\n<img src=\"https://github.com/aleksey-stukalov/cuba-vision-clinic/blob/master/screenshots/LS-products-screen.png\" alt=\"Product screen in LightSwitch app\" height=\"250px\">\r\n<img src=\"https://github.com/aleksey-stukalov/cuba-vision-clinic/blob/master/screenshots/CUBA-products-screen.png\" alt=\"Product screen in CUBA app\" height=\"250px\">\r\n\r\nFind technical aspects of how to launch the application [here](https://github.com/aleksey-stukalov/cuba-vision-clinic/wiki).\r\n\r\nBased on CUBA Platform 6.3.4\r\n",
-  "note": "Don't delete this file! It's used internally to help with page regeneration."
-}
