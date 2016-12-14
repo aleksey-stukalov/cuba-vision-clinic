@@ -55,6 +55,10 @@ public class Product extends BaseIdentityIdEntity {
     @Column(name = "Category")
     protected String category;
 
+    /**
+     * The collection contains all {@link ProductRebate} instances that have reference
+     * to this {@link Product} via the {@link ProductRebate#productID} field
+     */
     @Composition
     @OneToMany(mappedBy = "productID")
     protected Set<ProductRebate> rebates;
